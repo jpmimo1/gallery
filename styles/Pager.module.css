@@ -1,0 +1,43 @@
+.pagination {
+    display: inline-flex;
+    border-radius: 5px;
+}
+
+.button {
+    border: solid 1px #dfdfdf;
+    padding: 0.5em 0.7em;
+    border-collapse: collapse;
+    border-right: none;
+    transition: background-color 0.05s ease-in-out;
+    background-color: white;
+}
+
+.button:hover {
+    background-color: #f4f4f4;
+}
+
+.button:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.button:last-child {
+    border-radius: 0 10px 10px 0;
+    border-right: solid 1px #dfdfdf;
+}
+
+.buttonDisabled {
+    color: #dfdfdf;
+}
+
+.buttonDisabled:hover {
+    background-color: white;
+}
+
+.buttonActive {
+    background-color: #0077ff;
+    color: white;
+}
+
+.buttonActive:hover {
+    background-color: #0077ff;
+}
