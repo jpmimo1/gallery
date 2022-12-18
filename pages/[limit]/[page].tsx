@@ -8,6 +8,7 @@ import { Pagination } from '../../components/gallery';
 import styles from '../../styles/Gallery.module.css';
 import Image from 'next/image';
 import { LimitSelector } from '../../components/gallery/LimitSelector';
+import Head from 'next/head';
 
 const minLimit = 3;
 const maxLimit = 10;
@@ -28,53 +29,58 @@ const GalleryPage: NextPage<Props> = ({ listPhotos, numPhotos }) => {
   const { page: currentPage, limit } = query as { page: string; limit: string };
 
   return (
-    <div className={styles.gallery}>
-      <div className={styles.header}>
-        <div className='container'>
-          <div className={styles['header-content']}>
-            <div>
-              <h2>Galleria.</h2>
+    <>
+      <Head>
+        <title>Gallery</title>
+      </Head>
+      <div className={styles.gallery}>
+        <div className={styles.header}>
+          <div className='container'>
+            <div className={styles['header-content']}>
+              <div>
+                <h2>Galleria.</h2>
+              </div>
+              <LimitSelector
+                currentLimit={parseInt(limit)}
+                max={maxLimit}
+                min={minLimit}
+              />
             </div>
-            <LimitSelector
-              currentLimit={parseInt(limit)}
-              max={maxLimit}
-              min={minLimit}
+          </div>
+        </div>
+        <div className='container'>
+          <div className={styles['list-photos']}>
+            {listPhotos.map(({ id, author, download_url, width, height }) => {
+              return (
+                <div key={id} className={styles['box-photo']}>
+                  <div className={styles['photo-information']}>
+                    <div className={styles.author}>{author}</div>
+                    <div>{`#${id}`}</div>
+                  </div>
+                  <div className={styles['image-container']}>
+                    <Image
+                      src={download_url}
+                      alt=''
+                      width={width / 5}
+                      height={height / 5}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className={styles['pagination-area']}>
+          <div className='container'>
+            <Pagination
+              currentPage={parseInt(currentPage)}
+              limit={parseInt(limit)}
+              numPhotos={numPhotos}
             />
           </div>
         </div>
       </div>
-      <div className='container'>
-        <div className={styles['list-photos']}>
-          {listPhotos.map(({ id, author, download_url, width, height }) => {
-            return (
-              <div key={id} className={styles['box-photo']}>
-                <div className={styles['photo-information']}>
-                  <div className={styles.author}>{author}</div>
-                  <div>{`#${id}`}</div>
-                </div>
-                <div className={styles['image-container']}>
-                  <Image
-                    src={download_url}
-                    alt=''
-                    width={width}
-                    height={height}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className={styles['pagination-area']}>
-        <div className='container'>
-          <Pagination
-            currentPage={parseInt(currentPage)}
-            limit={parseInt(limit)}
-            numPhotos={numPhotos}
-          />
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 
